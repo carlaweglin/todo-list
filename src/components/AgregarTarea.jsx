@@ -1,25 +1,29 @@
 import { useState } from 'react';
 import { Text, Input, Box, Select, Flex, Spacer, Button } from "@chakra-ui/react";
+import { ListaTareas } from './ListaTareas';
 
 export function AgregarTarea() {
 
     const [tareas, setTareas] = useState([]);
     const [tarea, setTarea] = useState('');
+
     
     function handleChange(e) {
          setTarea(e.target.value)
       }
 
       function agregarTarea() {
-        let aux = tareas
-        let tarea = {
-            nombreTarea : tarea,
+        let aux = tareas;
+        let tareaIngresada = {
+            descripcion : tarea,
+            id : self.crypto.randomUUID(),
             
         }
-        aux.push(tarea)
+        aux.push(tareaIngresada)
         setTareas(aux)
         setTarea('')
      }
+
 
   return (
     <>
@@ -53,7 +57,7 @@ export function AgregarTarea() {
       >
         Agregar
       </Button>
-      
+    <ListaTareas tareas={tareas}/>
     </>
   );
 }
