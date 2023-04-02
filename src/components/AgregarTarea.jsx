@@ -23,6 +23,7 @@ export function AgregarTarea() {
     let tareaIngresada = {
       descripcion: tarea,
       id: self.crypto.randomUUID(),
+      check: false,
     };
     aux.push(tareaIngresada);
     setTareas(aux);
@@ -67,7 +68,7 @@ export function AgregarTarea() {
       >
         Agregar
       </Button>
-      <ListaTareas tareas={tareas} />
+      <ListaTareas tareas={tareas} setTareas={setTareas}/>
     </>
   );
 }
