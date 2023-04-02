@@ -12,6 +12,7 @@ import { ListaTareas } from "./ListaTareas";
 
 export function AgregarTarea() {
   const [tareas, setTareas] = useState([]);
+//   const [tareasFiltradas, setTareasFiltradas] = useState (tareas)
   const [tarea, setTarea] = useState("");
 
   function handleChange(e) {
@@ -29,6 +30,7 @@ export function AgregarTarea() {
     setTareas(aux);
     setTarea("");
   }
+
 
   return (
     <>
@@ -51,7 +53,7 @@ export function AgregarTarea() {
           <Text as="h2" fontSize="xl">
             Filtros
           </Text>
-          <Select bg="white" placeholder="Seleccionar">
+          <Select bg="white" placeholder="Seleccionar" onChange={(e)=>filtrarTareas(e)}>
             <option value="todas">Todas</option>
             <option value="completas">Completas</option>
             <option value="incompletas">Incompletas</option>
