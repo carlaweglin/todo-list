@@ -9,10 +9,12 @@ import {
 } from "@chakra-ui/react";
 
 
-export function ListaTareas({ tareas, setTareas, tareasFiltradas }) {
+export function ListaTareas({ tareas, setTareas, tareasFiltradas, setTareasFiltradas}) {
   
     const eliminarTarea = (id) => {
         setTareas(tareas.filter((tarea) => tarea.id != id))
+        setTareasFiltradas(tareas.filter((tarea) => tarea.id != id))
+        console.log(tareas);
     }
 
     const completarTarea = (id) => {
@@ -24,7 +26,9 @@ export function ListaTareas({ tareas, setTareas, tareasFiltradas }) {
         setTareas (tareasAux)
     }
 
-  const listaItems = tareas.map((tarea) => (
+
+
+  const listaItems = tareasFiltradas.map((tarea) => (
     <Flex backgroundColor='white' key={tarea.id} width="600px" alignItems="center" gap="2" p='10px' boxShadow='-5px 1px 37px -3px rgba(0,0,0,0.52)' my='15px'>
       <Box p="2">
         <Heading as={tarea.check ? 's' : '' } color='black' size="md">{tarea.descripcion}</Heading>

@@ -12,7 +12,7 @@ import { ListaTareas } from "./ListaTareas";
 
 export function AgregarTarea() {
   const [tareas, setTareas] = useState([]);
-//   const [tareasFiltradas, setTareasFiltradas] = useState (tareas)
+  const [tareasFiltradas, setTareasFiltradas] = useState (tareas)
   const [tarea, setTarea] = useState("");
 
   function handleChange(e) {
@@ -29,6 +29,22 @@ export function AgregarTarea() {
     aux.push(tareaIngresada);
     setTareas(aux);
     setTarea("");
+  }
+
+  function filtrarTareas(value) {
+    if (value === 'todas') {
+        setTareasFiltradas(tareas)
+    }
+
+    if (value === 'completas') {
+        setTareasFiltradas(tareas.filter(tarea => tarea.check === true))
+    }
+
+    if (value === 'incompletas') {
+        setTareasFiltradas(tareas.filter(tarea => tarea.check === false)) 
+    }
+
+    console.log(tareasFiltradas);
   }
 
 
@@ -53,7 +69,7 @@ export function AgregarTarea() {
           <Text as="h2" fontSize="xl">
             Filtros
           </Text>
-          <Select bg="white" placeholder="Seleccionar" onChange={(e)=>filtrarTareas(e)}>
+          <Select bg="white" placeholder="Seleccionar" onChange={(e)=>filtrarTareas(e.target.value)}>
             <option value="todas">Todas</option>
             <option value="completas">Completas</option>
             <option value="incompletas">Incompletas</option>
@@ -70,7 +86,7 @@ export function AgregarTarea() {
       >
         Agregar
       </Button>
-      <ListaTareas tareas={tareas} setTareas={setTareas}/>
+      <ListaTareas tareas={tareas} setTareas={setTareas} tareasFiltradas={tareasFiltradas} setTareasFiltradas={setTareasFiltradas}/>
     </>
   );
 }
