@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   Input,
@@ -12,7 +12,7 @@ import { ListaTareas } from "./ListaTareas";
 
 export function AgregarTarea() {
   const [tareas, setTareas] = useState([]);
-  const [tareasFiltradas, setTareasFiltradas] = useState (tareas)
+  const [tareasFiltradas, setTareasFiltradas] = useState ({filtro:false,tareas:[]})
   const [tarea, setTarea] = useState("");
 
   function handleChange(e) {
@@ -20,9 +20,9 @@ export function AgregarTarea() {
   }
 
   function agregarTarea() {
-    let aux = tareas;
+    let aux = [...tareas];
     let tareaIngresada = {
-      descripcion: tarea,
+      descripcion: [...tarea],
       id: self.crypto.randomUUID(),
       check: false,
     };
@@ -32,22 +32,26 @@ export function AgregarTarea() {
   }
 
   function filtrarTareas(value) {
+    let tareasAux = [...tareas]
     if (value === 'todas') {
-        setTareasFiltradas(tareas)
+        let tareasFiltradasAux= {filtro:false,tareas:[]}
+        setTareasFiltradas(tareasFiltradasAux)
     }
 
     if (value === 'completas') {
-        setTareasFiltradas(tareas.filter(tarea => tarea.check === true))
+        let tareasFiltradasAux= {filtro:true, tareas:tareasAux.filter(tarea => tarea.check === true)}
+        setTareasFiltradas(tareasFiltradasAux)
     }
 
     if (value === 'incompletas') {
-        setTareasFiltradas(tareas.filter(tarea => tarea.check === false)) 
+        let tareasFiltradasAux={filtro:true, tareas:tareasAux.filter(tarea => tarea.check === false)}
+        setTareasFiltradas(tareasFiltradasAux) 
     }
 
-    console.log(tareasFiltradas);
+
   }
 
-
+  
   return (
     <>
       <Flex m="100px 100px 50px 100px">
