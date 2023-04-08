@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   Input,
@@ -11,7 +11,8 @@ import {
 import { ListaTareas } from "./ListaTareas";
 
 export function AgregarTarea() {
-  const [tareas, setTareas] = useState([]);
+  const [tareas, setTareas] = useState(JSON.parse(localStorage.getItem('tareas')) || []);
+  const [tareasFiltradas, setTareasFiltradas] = useState ({filtro:false,tareas: []})
   const [tarea, setTarea] = useState("");
 
   function handleChange(e) {
@@ -19,16 +20,42 @@ export function AgregarTarea() {
   }
 
   function agregarTarea() {
-    let aux = tareas;
+    let aux = [...tareas];
     let tareaIngresada = {
-      descripcion: tarea,
+      descripcion: [...tarea],
       id: self.crypto.randomUUID(),
+      check: false,
     };
     aux.push(tareaIngresada);
     setTareas(aux);
+    localStorage.setItem('tareas', JSON.stringify(aux))
     setTarea("");
   }
 
+  function filtrarTareas(value) {
+    let tareasAux = [...tareas]
+    if (value === 'todas') {
+        let tareasFiltradasAux= {filtro:false,tareas:[]}
+        setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux))
+    }
+
+    if (value === 'completas') {
+        let tareasFiltradasAux= {filtro:true, tareas:tareasAux.filter(tarea => tarea.check === true)}
+        setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux))
+    }
+
+    if (value === 'incompletas') {
+        let tareasFiltradasAux={filtro:true, tareas:tareasAux.filter(tarea => tarea.check === false)}
+        setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux)) 
+    }
+
+
+  }
+
+  
   return (
     <>
       <Flex m="100px 100px 50px 100px">
@@ -50,7 +77,7 @@ export function AgregarTarea() {
           <Text as="h2" fontSize="xl">
             Filtros
           </Text>
-          <Select bg="white" placeholder="Seleccionar">
+          <Select bg="white" placeholder="Seleccionar" onChange={(e)=>filtrarTareas(e.target.value)}>
             <option value="todas">Todas</option>
             <option value="completas">Completas</option>
             <option value="incompletas">Incompletas</option>
@@ -67,7 +94,7 @@ export function AgregarTarea() {
       >
         Agregar
       </Button>
-      <ListaTareas tareas={tareas} />
+      <ListaTareas tareas={tareas} setTareas={setTareas} tareasFiltradas={tareasFiltradas} setTareasFiltradas={setTareasFiltradas}/>
     </>
   );
 }
