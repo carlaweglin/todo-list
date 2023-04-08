@@ -11,8 +11,8 @@ import {
 import { ListaTareas } from "./ListaTareas";
 
 export function AgregarTarea() {
-  const [tareas, setTareas] = useState([]);
-  const [tareasFiltradas, setTareasFiltradas] = useState ({filtro:false,tareas:[]})
+  const [tareas, setTareas] = useState(JSON.parse(localStorage.getItem('tareas')) || []);
+  const [tareasFiltradas, setTareasFiltradas] = useState ({filtro:false,tareas: []})
   const [tarea, setTarea] = useState("");
 
   function handleChange(e) {
@@ -28,6 +28,7 @@ export function AgregarTarea() {
     };
     aux.push(tareaIngresada);
     setTareas(aux);
+    localStorage.setItem('tareas', JSON.stringify(aux))
     setTarea("");
   }
 
@@ -36,16 +37,19 @@ export function AgregarTarea() {
     if (value === 'todas') {
         let tareasFiltradasAux= {filtro:false,tareas:[]}
         setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux))
     }
 
     if (value === 'completas') {
         let tareasFiltradasAux= {filtro:true, tareas:tareasAux.filter(tarea => tarea.check === true)}
         setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux))
     }
 
     if (value === 'incompletas') {
         let tareasFiltradasAux={filtro:true, tareas:tareasAux.filter(tarea => tarea.check === false)}
-        setTareasFiltradas(tareasFiltradasAux) 
+        setTareasFiltradas(tareasFiltradasAux)
+        localStorage.setItem('tareasFiltradas', JSON.stringify(tareasFiltradasAux)) 
     }
 
 

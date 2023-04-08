@@ -13,6 +13,7 @@ export function ListaTareas({ tareas, setTareas, tareasFiltradas, setTareasFiltr
   
     const eliminarTarea = (id) => {
         setTareas(tareas.filter((tarea) => tarea.id != id))
+        localStorage.setItem('tareas', JSON.stringify(tareas.filter((tarea) => tarea.id != id)))
         let tareasFiltradasAux
         if (tareasFiltradas.filtro === true){
             tareasFiltradasAux = {filtro:true , tareas:tareasFiltradas.tareas.filter((tarea) => tarea.id != id)}
@@ -30,6 +31,7 @@ export function ListaTareas({ tareas, setTareas, tareasFiltradas, setTareasFiltr
         tarea.check = !(tarea.check)
         tareasAux[index] = tarea
         setTareas (tareasAux)
+        localStorage.setItem('tareas', JSON.stringify(tareasAux))
     }
 
 
