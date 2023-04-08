@@ -89,7 +89,7 @@ export function AgregarTarea() {
         height="48px"
         width="200px"
         border="2px"
-        borderColor="blue.500"
+        borderColor="pink.200"
         onClick={agregarTarea}
       >
         Agregar
